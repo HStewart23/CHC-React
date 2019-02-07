@@ -34,6 +34,38 @@ body {
   background-color: #4a9956;
 }
 
+.first{
+  order: 1;
+}
+
+.ein{
+  order: 2;
+}
+
+.second{
+  order: 3;
+}
+
+.twee{
+  order: 4;
+}
+
+.third{
+  order: 5;
+}
+
+.drie{
+  order: 6;
+}
+
+.fourth{
+  order:7;
+}
+
+.bloom{
+  order:8;
+}
+
 .leaf {
   width: 50px;
   height: 25px;

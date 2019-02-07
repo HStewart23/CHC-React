@@ -3,7 +3,7 @@ import React from "react";
 
 const FlowerComp = ({ gameOver }) => {
   return (
-      <div>
+      <div className="bloom">
         <div className={gameOver ? "flower" : ""} />
       </div>
     );

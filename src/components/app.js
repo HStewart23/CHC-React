@@ -64,12 +64,16 @@ export default class App extends React.Component {
   };
 
   render() {
-    const stalks = Array.from({
+    let stalks = Array.from({
       length: Math.floor(this.state.totalCount / 3)
     });
-    const leafs = Array.from({
+    let leafs = Array.from({
       length: Math.floor(this.state.totalCount / 10)
     });
+    if (this.gameOver == true){
+      leafs = [];
+      stalks = [];
+    }
 
     return (
       <div>
