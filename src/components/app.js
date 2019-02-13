@@ -5,7 +5,6 @@ import FlowerComp from "./flowerComp";
 import PlantPotComp from "./plantPotComp";
 import CloudComp from "./cloudComp";
 
-
 export default class App extends React.Component {
   state = {
     totalCount: 0,
@@ -17,10 +16,11 @@ export default class App extends React.Component {
   };
 
   gameOver = () => {
-    this.reset();
-    this.setState(() => {
-      return { gameOver: true };
-    });
+    // this.reset();
+    clearInterval(this.state.timerId);
+    clearInterval(this.state.opponentTimerId);
+    this.setState({ gameOver: true });
+    // this.reset();
   };
   pointCounter = () => {
     if (this.state.totalCount === 29) {
@@ -28,17 +28,20 @@ export default class App extends React.Component {
     }
     this.setState({ totalCount: this.state.totalCount + 1 });
   };
+
+  // resetting mid game
   reset = () => {
     clearInterval(this.state.timerId);
     clearInterval(this.state.opponentTimerId);
-    this.setState({ timer: 60, active: false, totalCount: 0, gameOver: false });
+    this.setState({ gameOver: false, active: false, totalCount: 0, timer: 60 });
+    // this.start;
   };
+
   toggle = () => {
-    if (!this.state.active) {
-      this.start();
-    } else {
+    if (this.state.active) {
       this.reset();
     }
+    this.start();
   };
 
   start = () => {
@@ -58,7 +61,14 @@ export default class App extends React.Component {
       this.setState(() => {
         const id = setInterval(timer, 1000);
         const oppId = setInterval(opponentTimer, 3000);
-        return { active: true, timerId: id, opponentTimerId: oppId };
+        return {
+          totalCount: 0,
+          gameOver: false,
+          timer: 60,
+          active: true,
+          timerId: id,
+          opponentTimerId: oppId
+        };
       });
     }
   };
@@ -70,28 +80,30 @@ export default class App extends React.Component {
     let leafs = Array.from({
       length: Math.floor(this.state.totalCount / 10)
     });
-    if (this.gameOver == true){
-      leafs = [];
-      stalks = [];
-    }
 
     return (
       <div>
         <ul>
-        <li><p className="timer"> timer: {this.state.timer}</p></li>
-        <li>
-        <button onClick={this.toggle}>
-          {this.state.active || this.state.gameOver ? "Reset" : "Start"}
-        </button>
-        <button
-          className={this.state.active ? "" : "grey"}
-          onClick={this.pointCounter}
-        >
-          💦💧Water Me💧💦
-        </button>
-        </li>
-        <li><p className="timer float-right"> points: {this.state.totalCount}</p></li>
-        <div className="clear" />
+          <li>
+            <p className="timer"> timer: {this.state.timer}</p>
+          </li>
+          <li>
+            <button onClick={this.toggle}>
+              {this.state.active ? "Reset" : "Start"}
+            </button>
+            {!this.state.gameOver && this.state.active ? (
+              <button onClick={this.pointCounter}>💦💧Water Me💧💦</button>
+            ) : (
+              ""
+            )}
+          </li>
+          <li>
+            <p className="timer float-right">
+              {" "}
+              points: {this.state.totalCount}
+            </p>
+          </li>
+          <div className="clear" />
         </ul>
         <div className="container">
           <CloudComp />
